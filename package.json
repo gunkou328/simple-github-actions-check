@@ -41,5 +41,8 @@
     "stylelint-config-standard-scss": "13.0.0",
     "stylelint-scss": "6.2.1",
     "vitest": "1.4.0"
+  },
+  "volta": {
+    "node": "19.9.0"
   }
 }
