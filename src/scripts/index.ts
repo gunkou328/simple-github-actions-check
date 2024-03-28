@@ -1,4 +1,3 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // document.addEventListener("DOMContentLoaded",  => {
-  console.log(1);
+  // const a = 1;
 });
