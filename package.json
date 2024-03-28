@@ -3,21 +3,25 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
-    "dev": "astro dev",
-    "start": "astro dev",
-    "build": "astro check && astro build",
-    "preview": "astro preview",
-    "astro": "astro",
-    "prettier": "prettier --write 'src/**/*.{ts,astro,scss}'",
-    "stylelint": "stylelint --fix 'src/**/*.scss'",
-    "eslint": "eslint --fix 'src/**/*.{ts,astro}'",
-    "test": "vitest",
+    "start": "npm run dev",
+    "test": "npm run check",
 
-    "astro-c": "astro check",
-    "prettier-c": "prettier --check 'src/**/*.{ts,astro,scss}'",
-    "stylelint-c": "stylelint 'src/**/*.scss'",
-    "eslint-c": "eslint 'src/**/*.{ts,astro}'",
-    "vitest-c": "vitest --run"
+    "dev": "astro dev",
+    "vitest": "vitest",
+    "build": "npm run check && astro build",
+    "preview": "astro preview",
+
+    "check:astro": "astro check",
+    "check:vitest": "npm run vitest -- --run",
+    "check:prettier": "prettier --check 'src/**/*.{ts,astro,scss}'",
+    "check:stylelint": "stylelint 'src/**/*.scss'",
+    "check:eslint": "eslint 'src/**/*.{ts,astro}'",
+    "check": "npm run check:astro & npm run check:vitest & npm run check:prettier & npm run check:stylelint & npm run check:eslint",
+
+    "check:fix:prettier": "npm run check:prettier -- --write",
+    "check:fix:stylelint": "npm run check:stylelint -- --fix",
+    "check:fix:eslint": "npm run check:eslint -- --fix",
+    "fix": "npm run check:fix:prettier & npm run check:fix:stylelint & npm run check:fix:eslint"
   },
   "dependencies": {
     "@astrojs/check": "0.5.6",
@@ -26,7 +30,6 @@
     "typescript": "5.3.3"
   },
   "devDependencies": {
-    "@types/lodash.template": "4.5.3",
     "@typescript-eslint/eslint-plugin": "7.1.1",
     "@typescript-eslint/parser": "7.1.1",
     "eslint": "8.57.0",
@@ -41,5 +44,8 @@
     "stylelint-config-standard-scss": "13.0.0",
     "stylelint-scss": "6.2.1",
     "vitest": "1.4.0"
+  },
+  "volta": {
+    "node": "20.11.1"
   }
 }
