@@ -1,0 +1,23 @@
+---
+import "@styles/index.scss";
+
+const { pageTitle } = Astro.props;
+let siteTitle;
+const prefixTitle = "titile";
+if (pageTitle === "") {
+  siteTitle = prefixTitle;
+} else {
+  siteTitle = `${pageTitle}｜${prefixTitle}`;
+}
+---
+
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <title>{siteTitle}</title>
+    <script src="../scripts/index.ts"></script>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

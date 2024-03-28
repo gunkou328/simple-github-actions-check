@@ -1,0 +1,45 @@
+{
+  "name": "simple",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "prettier": "prettier --write 'src/**/*.{ts,astro,scss}'",
+    "stylelint": "stylelint --fix 'src/**/*.scss'",
+    "eslint": "eslint --fix 'src/**/*.{ts,astro}'",
+    "test": "vitest",
+
+    "astro-c": "astro check",
+    "prettier-c": "prettier --check 'src/**/*.{ts,astro,scss}'",
+    "stylelint-c": "stylelint 'src/**/*.scss'",
+    "eslint-c": "eslint 'src/**/*.{ts,astro}'",
+    "vitest-c": "vitest --run"
+  },
+  "dependencies": {
+    "@astrojs/check": "0.5.6",
+    "astro": "4.4.12",
+    "sass": "1.71.1",
+    "typescript": "5.3.3"
+  },
+  "devDependencies": {
+    "@types/lodash.template": "4.5.3",
+    "@typescript-eslint/eslint-plugin": "7.1.1",
+    "@typescript-eslint/parser": "7.1.1",
+    "eslint": "8.57.0",
+    "eslint-plugin-astro": "0.31.4",
+    "happy-dom": "14.0.0",
+    "postcss-html": "1.6.0",
+    "prettier": "3.2.5",
+    "prettier-plugin-astro": "0.13.0",
+    "stylelint": "16.2.1",
+    "stylelint-config-html": "1.1.0",
+    "stylelint-config-recess-order": "5.0.0",
+    "stylelint-config-standard-scss": "13.0.0",
+    "stylelint-scss": "6.2.1",
+    "vitest": "1.4.0"
+  }
+}

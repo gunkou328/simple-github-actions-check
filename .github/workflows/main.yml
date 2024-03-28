@@ -1,0 +1,35 @@
+name: Check the source code
+on: [pull_request]
+jobs:
+  test:
+    name: Check the source code
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.11.1'
+      - name: Cache node modules
+        uses: actions/cache@v4
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+      - name: npm のインストール
+        run: npm ci
+      - name: astro
+        run: npm run astro-c
+      - name: prettier
+        run: npm run prettier-c
+      - name: stylelint
+        run: npm run stylelint-c
+      - name: eslint
+        run: npm run eslint-c
+      - name: vitest
+        run: npm run vitest-c
