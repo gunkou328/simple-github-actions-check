@@ -14,12 +14,12 @@ jobs:
       - name: npm のインストール
         run: npm ci --no-audit --progress=false --silent
       - name: astro
-        run: npm run astro-c
+        run: npm run check:astro
       - name: prettier
-        run: npm run prettier-c
+        run: npm run check:prettier
       - name: stylelint
-        run: npm run stylelint-c
+        run: npm run check:stylelint
       - name: eslint
-        run: npm run eslint-c
+        run: npm run check:eslint
       - name: vitest
-        run: npm run vitest-c
+        run: npm run check:vitest

@@ -3,25 +3,19 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
-    "start": "npm run dev",
-    "test": "npm run check",
-
-    "dev": "astro dev",
-    "vitest": "vitest",
-    "build": "npm run check && astro build",
+    "start": "concurrently \"astro dev\" \"vitest\"",
+    "test": "npm run check:astro & npm run check:vitest & npm run check:prettier & npm run check:stylelint & npm run check:eslint",
+    "fix": "npm run check:fix:prettier & npm run check:fix:stylelint & npm run check:fix:eslint",
+    "build": "npm test && astro build",
     "preview": "astro preview",
-
     "check:astro": "astro check",
-    "check:vitest": "npm run vitest -- --run",
+    "check:vitest": "vitest --run",
     "check:prettier": "prettier --check 'src/**/*.{ts,astro,scss}'",
     "check:stylelint": "stylelint 'src/**/*.scss'",
     "check:eslint": "eslint 'src/**/*.{ts,astro}'",
-    "check": "npm run check:astro & npm run check:vitest & npm run check:prettier & npm run check:stylelint & npm run check:eslint",
-
     "check:fix:prettier": "npm run check:prettier -- --write",
     "check:fix:stylelint": "npm run check:stylelint -- --fix",
-    "check:fix:eslint": "npm run check:eslint -- --fix",
-    "fix": "npm run check:fix:prettier & npm run check:fix:stylelint & npm run check:fix:eslint"
+    "check:fix:eslint": "npm run check:eslint -- --fix"
   },
   "dependencies": {
     "@astrojs/check": "0.5.6",
@@ -32,6 +26,7 @@
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "7.1.1",
     "@typescript-eslint/parser": "7.1.1",
+    "concurrently": "8.2.2",
     "eslint": "8.57.0",
     "eslint-plugin-astro": "0.31.4",
     "happy-dom": "14.0.0",
