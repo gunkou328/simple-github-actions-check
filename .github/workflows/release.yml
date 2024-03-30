@@ -17,11 +17,12 @@ jobs:
           cache: 'npm'
       - name: npm のインストール
         run: npm ci --no-audit --progress=false --silent
-      - name: build
+      - name: 静的ファイルの作成
         run: npm run build
       - name: distフォルダのzipファイル作成
         run: zip dist.zip -r dist
-      - name: Release
+      - name: Releaseノートの作成
         uses: softprops/action-gh-release@v2
         with:
+          generate_release_notes: true
           files: dist.zip
