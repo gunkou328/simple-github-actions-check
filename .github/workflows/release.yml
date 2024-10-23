@@ -10,19 +10,44 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v4
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version-file: 'package.json'
           cache: 'npm'
+
       - name: npm のインストール
         run: npm ci --no-audit --progress=false --silent
-      - name: 静的ファイルの作成
+
+      - name: 前のタグにチェックアウト
+        id: checkout-previous
+        run: |
+          git fetch --tags
+          previous_tag=$(git describe --tags $(git rev-list --tags --skip=1 --max-count=1))
+          git checkout $previous_tag
+
+      - name: 前のタグでビルド
         run: npm run build
-      - name: distフォルダのzipファイル作成
-        run: zip dist.zip -r dist
+
+      - name: 前のタグのビルド成果物を保存
+        run: mv dist dist_previous
+
+      - name: 最新のタグにチェックアウト
+        id: checkout-latest
+        run: |
+          latest_tag=$(git describe --tags $(git rev-list --tags --max-count=1))
+          git checkout $latest_tag
+
+      - name: 最新のタグでビルド
+        run: npm run build
+
+      - name: ビルド成果物の差分を取得
+        id: diff
+        run: diff -r dist_previous dist || true
+
       - name: Releaseノートの作成
         uses: softprops/action-gh-release@v2
         with:
           generate_release_notes: true
-          files: dist.zip
+          body: ${{ steps.diff.outputs.result }}
