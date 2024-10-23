@@ -1,8 +1,5 @@
 name: release
-on:
-  push:
-    tags:
-      - '*'
+on: push
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -17,15 +14,14 @@ jobs:
           node-version-file: 'package.json'
           cache: 'npm'
 
-      - name: npm のインストール
-        run: npm ci --no-audit --progress=false --silent
-
       - name: 前のタグにチェックアウト
         id: checkout-previous
         run: |
-          git fetch --tags
-          previous_tag=$(git describe --tags $(git rev-list --tags --skip=1 --max-count=1))
+          previous_tag=$(git tag --sort=v:refname | tail -n 2 | head -n 1)
           git checkout $previous_tag
+
+      - name: npm のインストール
+        run: npm ci --no-audit --progress=false --silent
 
       - name: 前のタグでビルド
         run: npm run build
@@ -38,6 +34,9 @@ jobs:
         run: |
           latest_tag=$(git describe --tags $(git rev-list --tags --max-count=1))
           git checkout $latest_tag
+
+      - name: npm のインストール
+        run: npm ci --no-audit --progress=false --silent
 
       - name: 最新のタグでビルド
         run: npm run build
