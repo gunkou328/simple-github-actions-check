@@ -2,7 +2,7 @@ name: release
 on:
   push:
     tags:
-      - 'release*'
+      - '*release*'
 # on: push
 jobs:
   release:
@@ -33,7 +33,7 @@ jobs:
       - name: 前のタグにチェックアウト
         run: |
           git fetch --tags --force
-          previous_tag=$(git tag -l 'release*' --sort=v:refname | tail -n 2 | head -n 1)
+          previous_tag=$(git tag -l '*release*' --sort=v:refname | tail -n 2 | head -n 1)
           echo $previous_tag
           git checkout $previous_tag
 
