@@ -5,7 +5,7 @@
 # `sh script.sh ./new ./old > diff.txt`
 # を実行することで差分ファイルの抽出と差分ファイル一覧テキストが出力されます。
 
-output=$(release -qr "$1" "$2" -x .DS_Store)
+output=$(diff -qr "$1" "$2" -x .DS_Store)
 array=()
 while IFS= read -r line; do
   status=$(echo "$line" | awk '{print $1}')
