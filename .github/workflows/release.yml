@@ -1,9 +1,9 @@
 name: release
-# on:
-#   push:
-#     tags:
-#       - '*'
-on: push
+on:
+  push:
+    tags:
+      - '*'
+# on: push
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -27,6 +27,9 @@ jobs:
       - name: 最新のビルド成果物を保存
         run: mv dist dist_latest
 
+      - name: node_modules削除
+        run: rm -rf node_modules
+
       - name: 前のタグにチェックアウト
         id: checkout-previous
         run: |
@@ -47,9 +50,10 @@ jobs:
           mkdir diff
           bash build/script.sh ./dist_latest ./dist > ./diff/diff.txt
           cat diff/diff.txt
+          zip diff.zip -r diff
 
-      # - name: Releaseノートの作成
-      #   uses: softprops/action-gh-release@v2
-      #   with:
-      #     generate_release_notes: true
-      #     body: ${{ steps.diff.outputs.result }}
+      - name: Releaseノートの作成
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+          files: dist.zip
