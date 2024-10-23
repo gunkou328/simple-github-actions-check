@@ -2,7 +2,7 @@ name: release
 on:
   push:
     tags:
-      - '*'
+      - 'release*'
 # on: push
 jobs:
   release:
@@ -25,16 +25,15 @@ jobs:
         run: npm run build
 
       - name: 最新のビルド成果物を保存
-        run: mv dist dist_latest
+        run: mv dist diff
 
       - name: node_modules削除
         run: rm -rf node_modules
 
       - name: 前のタグにチェックアウト
-        id: checkout-previous
         run: |
           git fetch --tags --force
-          previous_tag=$(git tag --sort=v:refname | tail -n 2 | head -n 1)
+          previous_tag=$(git tag -l 'release*' --sort=v:refname | tail -n 2 | head -n 1)
           echo $previous_tag
           git checkout $previous_tag
 
@@ -45,15 +44,14 @@ jobs:
         run: npm run build
 
       - name: ビルド成果物の差分を取得
-        id: diff
         run: |
-          mkdir diff
-          bash build/script.sh ./dist_latest ./dist > ./diff/diff.txt
-          cat diff/diff.txt
-          zip diff.zip -r diff
+          mkdir release
+          bash build/script.sh ./diff ./dist > ./release/diff.txt
+          cat release/diff.txt
+          zip release.zip -r release
 
       - name: Releaseノートの作成
         uses: softprops/action-gh-release@v2
         with:
           generate_release_notes: true
-          files: diff.zip
+          files: release.zip
