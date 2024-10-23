@@ -20,6 +20,7 @@ jobs:
       - name: 前のタグにチェックアウト
         id: checkout-previous
         run: |
+          git fetch --tags
           previous_tag=$(git tag --sort=v:refname | tail -n 2 | head -n 1)
           echo $previous_tag
           git checkout $previous_tag
