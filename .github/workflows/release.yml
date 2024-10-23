@@ -6,6 +6,7 @@ on:
 # on: push
 jobs:
   release:
+    if: contains(github.ref, 'release')
     runs-on: ubuntu-latest
     permissions:
       contents: write
