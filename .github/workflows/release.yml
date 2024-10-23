@@ -45,7 +45,7 @@ jobs:
         id: diff
         run: |
           mkdir diff
-          sh build/script.sh ./dist_latest ./dist > ./diff/diff.txt
+          bash build/script.sh ./dist_latest ./dist > ./diff/diff.txt
           cat diff/diff.txt
 
       # - name: Releaseノートの作成
