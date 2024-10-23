@@ -18,6 +18,7 @@ jobs:
         id: checkout-previous
         run: |
           previous_tag=$(git tag --sort=v:refname | tail -n 2 | head -n 1)
+          echo $previous_tag
           git checkout $previous_tag
 
       - name: npm のインストール
@@ -32,7 +33,8 @@ jobs:
       - name: 最新のタグにチェックアウト
         id: checkout-latest
         run: |
-          latest_tag=$(git describe --tags $(git rev-list --tags --max-count=1))
+          latest_tag=$(git tag --sort=v:refname | tail -n 1)
+          echo $latest_tag
           git checkout $latest_tag
 
       - name: npm のインストール
