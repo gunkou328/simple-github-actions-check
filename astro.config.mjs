@@ -10,6 +10,7 @@ export default defineConfig({
     assets: 'assets',
     inlineStylesheets: 'never'
   },
+  compressHTML: false,
   vite: {
     build: {
       assetsInlineLimit: 0 // htmlにアセットを埋め込まないようにする

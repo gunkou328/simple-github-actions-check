@@ -23,3 +23,9 @@ jobs:
         run: npm run check:eslint
       - name: vitest
         run: npm run check:vitest
+      - name: build
+        run: npm run build
+      - name: HTML5Validator
+        uses: Cyb3r-Jak3/html5validator-action@v7.2.0
+        with:
+          root: dist/
