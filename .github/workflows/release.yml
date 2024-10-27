@@ -15,9 +15,6 @@ jobs:
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
-        with:
-          node-version-file: 'package.json'
-          cache: 'npm'
 
       - name: npm のインストール
         run: npm ci --no-audit --progress=false --silent
