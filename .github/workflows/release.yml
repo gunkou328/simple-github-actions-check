@@ -25,9 +25,6 @@ jobs:
       - name: 最新のビルド成果物を保存
         run: mv dist diff
 
-      - name: node_modules削除
-        run: rm -rf node_modules
-
       - name: 前のタグにチェックアウト
         run: |
           git fetch --tags --force
