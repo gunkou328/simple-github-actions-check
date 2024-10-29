@@ -39,12 +39,12 @@ jobs:
           cd latest
           git fetch --tags --force
           previous_tag=$(git tag -l '*release*' --sort=v:refname | tail -n 2 | head -n 1)
-          echo "::set-output name=previous_tag::$previous_tag"
+          echo "PREVIOUS_TAG=$previous_tag" >> "$GITHUB_OUTPUT"
 
       - name: 前のタグをチェックアウト
         uses: actions/checkout@v4
         with:
-          ref: ${{ steps.previous-tag.outputs.previous_tag }}
+          ref: ${{ steps.previous-tag.outputs.PREVIOUS_TAG }}
           path: previous
 
       - name: Setup Node.js for previous
