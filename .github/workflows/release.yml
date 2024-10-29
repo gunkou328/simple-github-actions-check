@@ -36,6 +36,7 @@ jobs:
       - name: 前のタグを取得
         id: previous-tag
         run: |
+          cd latest
           git fetch --tags --force
           previous_tag=$(git tag -l '*release*' --sort=v:refname | tail -n 2 | head -n 1)
           echo "::set-output name=previous_tag::$previous_tag"
