@@ -11,42 +11,70 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v4
+      - name: 最新のタグをチェックアウト
+        uses: actions/checkout@v4
+        with:
+          path: latest
 
-      - name: Setup Node.js
+      - name: Setup Node.js for latest
         uses: actions/setup-node@v4
+        with:
+          node-version-file: 'latest/package.json'
 
-      - name: npm のインストール
+      - name: npm のインストール for latest
         run: npm ci --no-audit --progress=false --silent
+        working-directory: latest
 
       - name: 最新のタグでビルド
         run: npm run build
+        working-directory: latest
 
-      - name: 最新のビルド成果物を保存
-        run: mv dist diff
+      - name: ビルド成果物を移動
+        run: |
+          mv latest/dist diff
 
-      - name: 前のタグにチェックアウト
+      - name: 前のタグを取得
+        id: previous-tag
         run: |
           git fetch --tags --force
           previous_tag=$(git tag -l '*release*' --sort=v:refname | tail -n 2 | head -n 1)
-          echo $previous_tag
-          git checkout $previous_tag
+          echo "::set-output name=previous_tag::$previous_tag"
 
-      - name: npm のインストール
+      - name: 前のタグをチェックアウト
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.previous-tag.outputs.previous_tag }}
+          path: previous
+
+      - name: Setup Node.js for previous
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: 'previous/package.json'
+
+      - name: npm のインストール for previous
         run: npm ci --no-audit --progress=false --silent
+        working-directory: previous
 
       - name: 前のタグでビルド
         run: npm run build
+        working-directory: previous
 
       - name: ビルド成果物の差分を取得
         run: |
           mkdir release
-          bash build/script.sh ./diff ./dist > ./release/diff.txt
+          bash latest/build/script.sh diff previous/dist > ./release/diff.txt
           cat release/diff.txt
+
+      - name: PRに添付するzipファイルを作成
+        run: |
+          mv diff dist
+          zip dist.zip -r dist
           zip release.zip -r release
 
       - name: Releaseノートの作成
         uses: softprops/action-gh-release@v2
         with:
           generate_release_notes: true
-          files: release.zip
+          files: |
+            release.zip
+            dist.zip
