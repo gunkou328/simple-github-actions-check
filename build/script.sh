@@ -16,21 +16,19 @@ while IFS= read -r line; do
     path=$(echo "$line" | awk '{print $3}' | sed -e "s/:/\//")
     fileName=$(echo "$line" | awk '{print $4}')
     fullPath="$path$fileName"
-    # サイトのルート相対パスに合わせる
-    fullPathName=$(echo "$fullPath" | sed -e 's|.*\(/enjoy.*\)|\1|')
+    siteRootPathName=$(echo "$fullPath" | sed -e "s|$1||; s|$2||")
 
     if [[ "$path" == "$1"* ]]; then
         rsync -aR "$fullPath" ./release
-        array+=("新規: $fullPathName")
+        array+=("新規: $siteRootPathName")
     elif [[ "$path" == "$2"* ]]; then
-        array+=("削除: $fullPathName")
+        array+=("削除: $siteRootPathName")
     fi
   else
     fullPath=$(echo "$line" | awk '{print $2}')
-    # サイトのルート相対パスに合わせる
-    fullPathName=$(echo "$fullPath" | sed -e 's|.*\(/enjoy.*\)|\1|')
+    siteRootPathName=$(echo "$fullPath" | sed -e "s|$1||; s|$2||")
     rsync -aR "$fullPath" ./release
-    array+=("差分: $fullPathName")
+    array+=("差分: $siteRootPathName")
   fi
 done <<< "$output"
 
