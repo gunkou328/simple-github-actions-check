@@ -69,7 +69,6 @@ jobs:
 
       - name: PRに添付するzipファイルを作成
         run: |
-          mv diff dist
           zip dist.zip -r latest/dist
           zip release.zip -r release
 
