@@ -57,9 +57,10 @@ jobs:
 
       - name: ビルド成果物の差分を取得
         run: |
-          mkdir release
-          bash latest/build/script.sh latest/dist previous/dist > ./release/diff.txt
+          mkdir -p release
+          bash latest/build/script.sh latest/dist previous/dist > ./release/diff.txt 2> ./release/error.log
           cat release/diff.txt
+          cat release/error.log
 
       - name: releaseフォルダの整理
         run: |
