@@ -3,7 +3,6 @@ on:
   push:
     tags:
       - '*release*'
-# on: push
 jobs:
   release:
     if: contains(github.ref, 'release')
