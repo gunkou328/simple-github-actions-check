@@ -6,7 +6,7 @@
 # を実行することで差分ファイルの抽出と差分ファイル一覧テキストが出力されます。
 
 diff -qr "$1" "$2" -x .DS_Store |
-
+(
     while IFS= read -r line; do
         status=$(echo "$line" | awk '{print $1}')
         if [[ "$status" == "Only" ]]; then
@@ -28,5 +28,5 @@ diff -qr "$1" "$2" -x .DS_Store |
             echo "差分: $site_root_path_name"
         fi
     done
-|
+)|
 LC_COLLATE=C sort -r
