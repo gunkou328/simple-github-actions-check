@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -euo pipefail
+# set -euo pipefail
 
 # 第一引数は最新ファイル、第二引数は古いファイル
 # 例）
