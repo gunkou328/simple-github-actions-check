@@ -9,7 +9,7 @@ set -euo pipefail
 # diffの戻り値が1でビルドジョブが止まるので、一時的にpipefailを無効化
 {
     set +o pipefail
-    diff -qr "$1" "$2" -x .DS_Store || true
+    diff -qr "$1" "$2" -x .DS_Store
 } |
 (
     while IFS= read -r line; do
