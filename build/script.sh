@@ -3,13 +3,13 @@
 set -euo pipefail
 
 # 第一引数は最新ファイル、第二引数は古いファイル
-# 例） `bash script.sh ./new ./old > diff.txt`
+# 例）
+# `bash script.sh ./new ./old > diff.txt`
 # を実行することで差分ファイルの抽出と差分ファイル一覧テキストが出力されます。
 
-# diffの戻り値が1でビルドジョブが止まるので、一時的にpipefailを無効化
+# diffのコード1を無視する
 {
-    set +o pipefail
-    diff -qr "$1" "$2" -x .DS_Store
+    diff -qr "$1" "$2" -x .DS_Store || true;
 } |
 (
     while IFS= read -r line; do
